@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media.Media3D;
 
-namespace PD_ScriptTemplate.Converter
+namespace IsoSplitProject.Converter
 {
     public class LookBackConverter : IValueConverter
     {

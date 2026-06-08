@@ -1,3 +1,20 @@
 ﻿<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
   <PropertyChanged />
+	
+	<Costura CreateTemporaryAssemblies="true">
+		<IncludeAssemblies>
+			CommunityToolkit.Common
+			CommunityToolkit.Diagnostics
+			CommunityToolkit.Mvvm
+			HelixToolkit
+			HelixToolkit.Wpf
+			HelixToolkit.Geometry
+			HelixToolkit.Maths
+			Serilog
+			Serilog.Sinks.File
+			YamlDotNet
+			FontAwesome.WPF
+			System.Diagnostics.DiagnosticSource
+		</IncludeAssemblies>
+	</Costura>
 </Weavers>

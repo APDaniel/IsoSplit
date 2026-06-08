@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Threading;
 
-namespace PD_ScriptTemplate.ViewModels
+namespace IsoSplitProject.ViewModels
 {
     /// <summary>
     /// A base view model that fires Property Changed events as needed

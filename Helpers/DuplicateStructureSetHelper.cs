@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using VMS.TPS.Common.Model.API;
 
-namespace PD_ScriptTemplate.Helpers
+namespace IsoSplitProject.Helpers
 {
     public class DuplicateStructureSetHelper
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media.Media3D;
 
-namespace PD_ScriptTemplate.Helpers
+namespace IsoSplitProject.Helpers
 {
     public class CopyMeshGeometry
     {

@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace PD_ScriptTemplate.Views
+namespace IsoSplitProject.Views
 {
     /// <summary>
     /// Interaction logic for MainView.xaml
@@ -24,6 +24,24 @@ namespace PD_ScriptTemplate.Views
         {
 
         }
+        private void FieldIdTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (sender is TextBox textBox)
+                {
+                    // Push TextBox.Text into the bound fieldID property
+                    textBox.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+
+                    // Prevent Enter from being processed further
+                    e.Handled = true;
+
+                    // Move focus away from the TextBox
+                    textBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                }
+            }
+        }
+
     }
 }
 

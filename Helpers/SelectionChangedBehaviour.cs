@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace PD_ScriptTemplate.Helpers
+namespace IsoSplitProject.Helpers
 {
     /// <summary>
     /// This class is required to bind ComboBox event to ICommand defined in the ViewModel

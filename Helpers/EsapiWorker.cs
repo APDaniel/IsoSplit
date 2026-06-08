@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using VMS.TPS.Common.Model.API;
 
-namespace PD_ScriptTemplate.Helpers
+namespace IsoSplitProject.Helpers
 {
     /// <summary>
     /// A class that helps to avoid freezing of the script window during script execution via Eclipse

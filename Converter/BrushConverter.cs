@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace PD_ScriptTemplate.Converter
+namespace IsoSplitProject.Converter
 {
     public class BrushConverter : IValueConverter
     {

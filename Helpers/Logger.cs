@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Collections.ObjectModel;
 using VMS.TPS.Common.Model.Types;
 
-namespace PD_ScriptTemplate.Helpers
+namespace IsoSplitProject.Helpers
 {
     /// <summary>
     /// A class to enable faults logging

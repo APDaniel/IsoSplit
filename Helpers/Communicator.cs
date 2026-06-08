@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PD_ScriptTemplate.Helpers
+namespace IsoSplitProject.Helpers
 {
     /// <summary>
     /// This Class is required to enable communication between variables stored in separate classes.

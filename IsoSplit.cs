@@ -2,9 +2,9 @@ using System;
 using System.Reflection;
 using VMS.TPS.Common.Model.API;
 using System.Threading;
-using PD_ScriptTemplate.Helpers;
-using PD_ScriptTemplate.ViewModels;
-using PD_ScriptTemplate;
+using IsoSplitProject.Helpers;
+using IsoSplitProject.ViewModels;
+using IsoSplitProject;
 using System.Windows.Threading;
 
 // TODO: Replace the following version attributes by creating AssemblyInfo.cs. You can do this in the properties of the Visual Studio project.
@@ -15,10 +15,12 @@ using System.Windows.Threading;
 
 namespace VMS.TPS
 {
+    
     public class Script // This is the script that will be called by Eclipse. It is referenced by PD_PluginTester
     {
-        Structure3DViewerViewModel mainViewModel = null;
+        IsoSplitViewModel mainViewModel = null;
 
+        public static ScriptContext scriptContext;
         public static ScriptWindow mainWindow;
         public Script()
         {
@@ -39,7 +41,8 @@ namespace VMS.TPS
         /// </summary>
         private void InititializeAndStartMainWindow(EsapiWorker esapiWorker)
         {
-            mainViewModel = new Structure3DViewerViewModel(esapiWorker);
+
+            mainViewModel = new IsoSplitViewModel(esapiWorker);
             Logger.LogInfo("MainViewModel set");
 
             //Instead of hooking DataContext to one specific ViewModel, we use a MainViewModel which allows navigation between different View Models.
@@ -47,7 +50,6 @@ namespace VMS.TPS
 
             mainWindow = new ScriptWindow() { DataContext=mainViewModel};
             mainWindow.ShowDialog();
-            
         }
 
         
@@ -58,7 +60,7 @@ namespace VMS.TPS
         //[MethodImpl(MethodImplOptions.NoInlining)]
         public void Execute(ScriptContext context)
         {
-            
+            scriptContext = context;
             // Rather than take the standard ESAPI input window, this code instantiates a WPF window subclass (ScriptWindow) which can be edited using the VS Designer 
 
             // If you don't want to use a GUI you can just pass the relevant ScriptContext fields to any method you want and call this method
@@ -95,14 +97,12 @@ namespace VMS.TPS
             Dispatcher.PushFrame(frame);
             Logger.LogInfo("New queue started");
 
-            
-
             // Note that Eclipse will pass you a handle to a window if you want to configure it yourself at runtime by adding and formating the layout of the controls.
             // The developer finds this to be very tedious and prefer to design the GUI using the Visual Studio designer.  However, this limits you (well, without adding significant complexity)
             // to running your script as a DLL (i.e. you have to compile the ScriptTemplate project to get ScriptTemplate.esapi.dll and run this in Eclipse.
             // If you don't want to do this, see https://github.com/VarianAPIs/Varian-Code-Samples/blob/master/Eclipse%20Scripting%20API/plugins/DvhLookups.cs for some examples of configuring the window layout
 
-            
+
         }
     }
 }

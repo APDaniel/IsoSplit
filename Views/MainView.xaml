@@ -1,15 +1,14 @@
-﻿<UserControl x:Class="PD_ScriptTemplate.Views.MainView"
+﻿<UserControl x:Class="IsoSplitProject.Views.MainView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:converter="clr-namespace:PD_ScriptTemplate.Converter"
+             xmlns:converter="clr-namespace:IsoSplitProject.Converter"
+             xmlns:local="clr-namespace:IsoSplitProject.Helpers"
              mc:Ignorable="d"
              xmlns:fa="http://schemas.fontawesome.io/icons/">
 
-
     <UserControl.Resources>
-        
         <converter:RangeToBooleanConverter x:Key="RangeToBooleanConverter"/>
         <converter:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converter:StarWidthConverter x:Key="starWidthConverter"/>
@@ -20,6 +19,27 @@
         <converter:ButtonEnabledConverter x:Key="ButtonEnabledConverter"/>
         <converter:InverseOperationStringToVisibilityConverter1 x:Key="InverseOperationStringToVisibilityConverter1"/>
         <SolidColorBrush x:Key="BorderPrimary" Color="#1c1c1c"/>
+        <Color x:Key="FilledColor" A="255" B="155" R="155" G="155"/>
+        <Color x:Key="UnfilledColor" A="0" B="155" R="155" G="155"/>
+
+        <Color x:Key="FontColor" A="255" B="100" R="100" G="100"/>
+        <SolidColorBrush x:Key="FontBrush" Color="{StaticResource FontColor}"/>
+
+        <Color x:Key="SelectableFontColor" A="255" B="0" R="0" G="0"/>
+        <SolidColorBrush x:Key="SelectableFontBrush" Color="{StaticResource SelectableFontColor}"/>
+
+        <Color x:Key="BackgroundColor" A="75" B="229" R="129" G="218"/>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+
+        <Color x:Key="BackgroundSecondaryColor">WhiteSmoke</Color>
+        <SolidColorBrush x:Key="BackgroundSecondaryBrush" Color="{StaticResource BackgroundSecondaryColor}"/>
+
+        <Color x:Key="BackgroundSecondColor" A="255" B="229" R="129" G="218"/>
+        <SolidColorBrush x:Key="BackgroundSecondBrush" Color="{StaticResource BackgroundSecondColor}"/>
+
+        <Color x:Key="BackgroundLilacColor" A="255" B="242" R="239" G="233"/>
+        <SolidColorBrush x:Key="BackgroundLilacBrush" Color="{StaticResource BackgroundLilacColor}"/>
+
         <Style x:Key="PageHeader" TargetType="TextBlock" >
             <Setter Property="FontSize" Value="32"/>
         </Style>
@@ -28,8 +48,8 @@
                 <Setter Property="Padding" Value="20 5"/>
                 <Setter Property="FontFamily" Value="Calibri"/>
                 <Setter Property="FontSize" Value="38"/>
-                <Setter Property="Foreground" Value="#d9d9d9"/>
-                <Setter Property="Background" Value="#999999"/>
+                <Setter Property="Foreground" Value="{StaticResource SelectableFontBrush}"/>
+                <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
                 <Setter Property="VerticalAlignment" Value="Stretch"/>
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 <Setter Property="Margin" Value="0"/>
@@ -40,6 +60,9 @@
                                     Padding="{TemplateBinding Padding}" 
                                     Margin="{TemplateBinding Margin}" 
                                     CornerRadius="0">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="12" ShadowDepth="0" Opacity="0.35" Color="#80000000"/>
+                                </Border.Effect>
                                 <ContentControl Content="{TemplateBinding Content}" 
                                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -56,14 +79,64 @@
                     <Trigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" To="#808080" Duration="0:0:0.1"/>
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" To="{StaticResource BackgroundSecondColor}" Duration="0:0:1.5"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.EnterActions>
                     <Trigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" To="#999999" Duration="0:0:0.1"/>
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" To="{StaticResource BackgroundColor}" Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.7"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="IconButton" TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Padding" Value="20 5"/>
+                <Setter Property="FontFamily" Value="Calibri"/>
+                <Setter Property="FontSize" Value="38"/>
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                            Padding="{TemplateBinding Padding}" 
+                            Margin="{TemplateBinding Margin}" 
+                            CornerRadius="0">
+                                <ContentControl Content="{TemplateBinding Content}" 
+                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"/>
+                            </Border>
+
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" To="Transparent" Duration="0:0:1.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" To="Transparent" Duration="0:0:0.5"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.ExitActions>
@@ -78,8 +151,8 @@
                 <Setter Property="Padding" Value="10 0 0 0"/>
                 <Setter Property="FontFamily" Value="Calibri"/>
                 <Setter Property="FontSize" Value="30"/>
-                <Setter Property="Foreground" Value="#d9d9d9"/>
-                <Setter Property="Background" Value="#999999"/>
+                <Setter Property="Foreground" Value="{StaticResource FontBrush}"/>
+                <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="TextAlignment" Value="Center"/>
@@ -89,14 +162,14 @@
             <Setter Property="Padding" Value="0"/>
             <Setter Property="FontFamily" Value="Calibri"/>
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="Background" Value="#F2F2F2"/>
+            <Setter Property="Foreground" Value="{StaticResource SelectableFontBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
@@ -115,35 +188,28 @@
                                   Padding="{TemplateBinding Padding}"/>
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Border" Property="Background" Value="#F2F2F2"/>
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#CCCCCC"/>
-                                <Setter Property="Foreground" Value="#888888"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#E6E6E6"/>
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#999999"/>
-                            </Trigger>
-                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#FFFFFF"/>
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#333333"/>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" To="{StaticResource BackgroundSecondColor}" Duration="0:0:1.5"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" To="Transparent" Duration="0:0:1.5"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
                             </Trigger>
                         </ControlTemplate.Triggers>
+
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            
-        </Style>
-        <Style x:Key="GenericComboBox" TargetType="ComboBox">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Width" Value="Auto"/>
-            <Setter Property="Height" Value="Auto"/>
-            <Setter Property="Padding" Value="20 8"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            
+
         </Style>
         <Style x:Key="GenericLabel" TargetType="Label">
             <Style.Setters>
@@ -357,7 +423,7 @@
                                                 HorizontalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
-                    
+
                 </Setter.Value>
             </Setter>
         </Style>
@@ -399,7 +465,7 @@
                                   VerticalAlignment="Center"
                                   Data="M 0 0 L 4 4 L 8 0 Z"
                                   Fill="Purple"/>
-                                    
+
                                 </ToggleButton>
                             </Grid>
 
@@ -426,6 +492,45 @@
                 </Setter.Value>
             </Setter>
 
+        </Style>
+        <Style x:Key="GenericComboBox" TargetType="ComboBox">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="Padding" Value="10 0 0 0"/>
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="Height" Value="Auto" />
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="Foreground" Value="{StaticResource SelectableFontBrush}"/>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ContentControl x:Name="ContentSite" Grid.Column="0" Content="{TemplateBinding SelectedItem}" ContentTemplate="{TemplateBinding ItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left" IsHitTestVisible="False" Padding="10 0 0 0"/>
+                            <Grid Grid.Column="1" HorizontalAlignment="Left">
+                                <ToggleButton x:Name="ArrowToggleButton" Width="50" Height="50" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Release" Style="{StaticResource ComboBoxToggleButtonStyle}">
+                                    <Path x:Name="Arrow" HorizontalAlignment="Left" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z" Fill="{StaticResource SelectableFontBrush}"/>
+                                </ToggleButton>
+                            </Grid>
+                            <Popup x:Name="Popup" AllowsTransparency="True" IsOpen="{Binding IsChecked, ElementName=ArrowToggleButton, Mode=TwoWay}" Placement="Bottom" PopupAnimation="Slide">
+                                <Grid x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}" HorizontalAlignment="Left">
+                                    <Border x:Name="DropDownBorder" Background="WhiteSmoke" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         <Style x:Key="GenericListView" TargetType="ListView">
             <Style.Setters>
@@ -547,7 +652,7 @@
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Margin, Converter={StaticResource RangeToBooleanConverter}}" Value="True">
                     <Setter Property="Background" Value="#F2F2F2" />
-                    
+
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -597,402 +702,270 @@
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Margin2, Converter={StaticResource RangeToBooleanConverter}}" Value="True">
                     <Setter Property="Background" Value="#F2F2F2" />
-
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Color x:Key="FilledColor" A="255" B="155" R="155" G="155"/>
-        <Color x:Key="UnfilledColor" A="0" B="155" R="155" G="155"/>
+        <Style x:Key="GenericBorder" TargetType="Border">
+            <Style.Setters>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Margin" Value="0 0 0 0"/>
+                <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+            </Style.Setters>
+        </Style>
     </UserControl.Resources>
-    <Grid Background="#999999">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="3*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Rectangle Grid.Row="1" 
-                   Grid.ColumnSpan="3" Grid.RowSpan="1"
-                   Style="{StaticResource GenericRectangle}"/>
-        <Grid Grid.Row="0" Grid.Column="0">
+
+    <Grid Background="WhiteSmoke">
+        <Grid x:Name="LoadingSpinner" 
+Grid.Column="0" Grid.Row="1"
+Grid.ColumnSpan="3" Grid.RowSpan="4"
+Background="Transparent"
+Visibility="{Binding workIsInProgress, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.5*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.5*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Margin="0 0 0 0"
-                       Text="Structure Set:" Style="{StaticResource GenericTextBlock}"
-                       TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-            <ComboBox Grid.Row="1" Grid.Column="0" Margin="8 0 0 8"
-                   SelectedItem="{Binding currentStructureSetId, Mode=TwoWay}"
-                      ItemsSource="{Binding availableStructureSets, Mode=OneWay}"
-                   Style="{StaticResource GenericComboBox}"/>
-        </Grid>
-        <Grid Grid.Row="0" Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0"
-                Text="Selected structure ID:" Style="{StaticResource GenericTextBlock}"
-                       TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-            <TextBlock Grid.Row="1" Grid.Column="0"
-                Text= "{Binding selectedStructureIDtoShow}" Style="{StaticResource GenericTextBlock}"
-                       TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Top"
-                       Foreground="{Binding selectedStructureColorToShow, Mode=OneWay}"/>
-        </Grid>
-        <Grid Grid.Row="0" Grid.Column="2"
-              Margin="0 0 10 0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="1" Grid.Column="0" 
-                       Text="Template:" Style="{StaticResource GenericTextBlock}"
-                       HorizontalAlignment="Right" Padding="0 0 10 0"/>
-            <ComboBox  Grid.Row="1" Grid.Column="1" 
-                       Text="Template:" Style="{StaticResource GenericComboBox}"
-                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <TextBlock Grid.Row="2" Grid.Column="1" FontSize="18"
-                       Text="Duplicate Structure Set" Style="{StaticResource GenericTextBlock}"
-                       HorizontalAlignment="Right" Padding="0 0 10 0"/>
-            <CheckBox Grid.Row="2" Grid.Column="0" 
-                      Style="{StaticResource GenericCheckBox}"
-                      IsChecked="{Binding duplicateStructureSet, Mode=TwoWay}"/>
-        </Grid>
-        <Grid Grid.Row="1" Grid.ColumnSpan="3" 
-              Background="WhiteSmoke" 
-              Opacity="{Binding workIsInProgress, Converter={StaticResource InverseBoolToOpacityConverter}}">
-            
-                <ListView x:Name="StructuresListView" 
-                          ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          ScrollViewer.VerticalScrollBarVisibility="Visible" BorderBrush="Transparent"
-                          ItemsSource="{Binding structuresIEnumerable, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                          SelectedItem="{Binding selectedStructureListViewItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                          IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                          Style="{StaticResource GenericListView}" ItemContainerStyle="{StaticResource GenericListViewItem}" Width="1290">
-                <ListView.View>
-                    <GridView>
-                            <GridViewColumn x:Name="StructureIDColumn"
-                                            Width="230">
-                            <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="StructureID"
-                                                          Command="{Binding CommandSortStructuresInTheListViewByStructureID}"
-                                                          Style="{StaticResource GenericGridViewColumnHeader}"
-                                                      />
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.structureIDsIEnumerable, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                            SelectedItem="{Binding StructureID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch"
-                                            Style="{StaticResource ListViewItemComboBox}" Grid.Column="0" Grid.Row="0"
-                                                  Margin="28 0 0 0"/>
-                                    </Grid>
-                                </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        <GridViewColumn x:Name="LabelColumn" 
-                                        Width="auto">
-                                <GridViewColumn.Header>
-                                    <GridViewColumnHeader Content="Label"
-                                                          Command="{Binding CommandSortStructuresInTheListViewByStructureLabel}"
-                                                          Style="{StaticResource GenericGridViewColumnHeader}"
-                                                          />
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                    <TextBlock Text="{Binding StructureLabel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                           Style="{StaticResource ListViewItemTextBlock}"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn x:Name="ColorColumn"  
-                                            Width="50">
-                                <GridViewColumn.Header>
-                                    <GridViewColumnHeader Content="Color" IsHitTestVisible="False"
-                                                          Style="{StaticResource GenericGridViewColumnHeader}"/>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Canvas>
-                                                <Ellipse Width="20" Height="20" Canvas.Left="-8" Canvas.Top="-9"
-                                             StrokeThickness="1" Stroke="#999999"
-                                             Fill="{Binding StructureColor, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                            </Canvas>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn x:Name="HighResColumn"  
-                                            Width="50">
-                                <GridViewColumn.Header>
-                                    <GridViewColumnHeader Content="HighRes" 
-                                                          Command="{Binding CommandSortStructuresInTheListViewByStructureResolution}"
-                                                          Style="{StaticResource GenericGridViewColumnHeader}"/>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Image Source="U:\Scripting\PD_ScriptTemplate\Projects\PD_ScriptTemplate\Components\check_MNc_icon.ico" 
-                                           Width="20" Height="20"
-                                           Visibility="{Binding IsHighResolution, UpdateSourceTrigger=PropertyChanged,
-                                               Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
-                                           />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn x:Name="VolumeColumn"
-                                             Width="130">
-                                <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Volume" Command="{Binding CommandSortStructuresInTheListViewByStructureVolume,Mode=OneWay}"
-                                                          Style="{StaticResource GenericGridViewColumnHeader}"/>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                    <TextBlock Text="{Binding StructureVolumeWithcc, UpdateSourceTrigger=PropertyChanged}"
-                                           Style="{StaticResource ListViewItemTextBlock}"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn x:Name="AlertsColumn"  
-                                            Width="50">
-                                <GridViewColumn.Header>
-                                    <GridViewColumnHeader Content="Alerts" 
-                                                          Command="{Binding CommandSortStructuresInTheListViewByStructureAlerts}"
-                                                          Style="{StaticResource GenericGridViewColumnHeader}"/>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <Image Source="U:\Scripting\PD_ScriptTemplate\Projects\PD_ScriptTemplate\Components\alert_YL6_icon.ico" 
-                                           Width="20" Height="20"
-                                           Visibility="{Binding IsEmptyStructure, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}"
-                                           />
-                                            <Image Source="U:\Scripting\PD_ScriptTemplate\Projects\PD_ScriptTemplate\Components\check_MNc_icon.ico" 
-                                           Width="20" Height="20"
-                                           Visibility="{Binding InverseIsEmptyStructure, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}"
-                                           />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn x:Name="ActionColumn"  
-                                            Width="400">
-                            <GridViewColumn.Header>
-                                <GridViewColumnHeader IsHitTestVisible="False"
-                                                          Style="{StaticResource GenericGridViewColumnHeader}">
-                                    <Grid Width="Auto" HorizontalAlignment="Stretch">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="60"/>
-                                            <ColumnDefinition Width="200"/>
-                                            <ColumnDefinition Width="120"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Text="Operator" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"/>
-                                        <TextBlock Text="Structure" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center"/>
-                                        <TextBlock Text="Margin (mm)" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right"/>
-                                    </Grid>
-                                </GridViewColumnHeader>
-                            </GridViewColumn.Header>
-                            
-                            <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        
-                                        
-                                        <ComboBox Name="ManipulationComboBox" 
-                                                  Grid.Column="0" Grid.Row="0"
-                                                  Style="{StaticResource ListViewItemComboBox}" Padding="0"
-                                                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, 
-                                                  Path=DataContext.ManipulationsAvailable, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  SelectedItem="{Binding Operation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                                  
-                                        <ComboBox Name="StructureToManipulateComboBox" 
-                                                  Grid.Column="1" Grid.Row="0"
-                                                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.structureIDsIEnumerable, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  SelectedItem="{Binding Structure2ToManipulateID}"
-                                                  Style="{StaticResource ListViewItemComboBox}" 
-                                                  Visibility="{Binding Operation, Converter={StaticResource InverseOperationStringToVisibilityConverter}}"
-                                                  Margin="0 0 20 0"/>
-
-                                        <Grid Name="OneMargin" Grid.Column="2" Grid.Row="0" 
-                                              Visibility="{Binding Operation, Converter={StaticResource InverseOperationStringToVisibilityConverter}}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-
-                                            <TextBox x:Name="MarginTextBox" Grid.Column="2" Grid.Row="0"
-                                        Text="{Binding Margin, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                                Style="{StaticResource MarginTextBox}"/>
-                                        </Grid>
-                                        
-                                        <Grid Name="OneMarginPRV" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" 
-                                              Visibility="{Binding Operation, Converter={StaticResource InverseOperationStringToVisibilityConverter1}}"
-                                              Margin="20 0 0 0">
-                                            
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-
-                                            <TextBox x:Name="MarginTextBoxPRV" Grid.Column="2" Grid.Row="0"
-                                        Text="{Binding Margin, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                                Style="{StaticResource MarginTextBox}"/>
-                                        </Grid>
-                                        
-                                        <Grid Name="TwoMargins" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" 
-                                            Visibility="{Binding Operation, Converter={StaticResource OperationStringToVisibilityConverter}}"
-                                              Margin="20 0 0 0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="2*"/>
-                                            </Grid.RowDefinitions>
-
-                                            <TextBlock Text="outside" Grid.Column="0" Grid.Row="0" Style="{StaticResource ListViewItemTextBlock}" 
-                                                       Margin="0" Padding="0" FontSize="18"/>
-                                            
-                                            <TextBox x:Name="Margin1TextBox" Grid.Column="0" Grid.Row="1" 
-                                        Text="{Binding Margin, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                                Style="{StaticResource MarginTextBox}"/>
-                                            
-                                            <TextBlock Text="inside" Grid.Column="1" Grid.Row="0" Style="{StaticResource ListViewItemTextBlock}"
-                                                       Margin="0" Padding="0" FontSize="18"/>
-
-                                            <TextBox x:Name="Margin2TextBox" Grid.Column="2" Grid.Row="1" Padding="2"
-                                                Text="{Binding Margin2, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Style="{StaticResource Margin2TextBox}"/>
-                                        </Grid>
-                                        
-                                    </Grid>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn x:Name="AddStructureColumn"  
-                                            Width="80">
-                                <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="AddStructure" IsHitTestVisible="False"
-                                                          Style="{StaticResource GenericGridViewColumnHeader}"/>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{StaticResource ListViewItemAddButton}" 
-                                                Command="{Binding DataContext.CommandAddStructureToTheListView, 
-                                            RelativeSource={RelativeSource AncestorType={x:Type ListView}}}">
-                                            <StackPanel>
-                                                <Image Width="30" Height="30" 
-                                                       Source="U:\Scripting\PD_ScriptTemplate\Projects\PD_ScriptTemplate\Components\plus_icon.ico"/>
-                                            </StackPanel>
-
-                                        </Button>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn x:Name="DeleteStructureColumn"  
-                                            Width="80">
-                                <GridViewColumn.Header>
-                                <GridViewColumnHeader Content="Delete" IsHitTestVisible="False"
-                                                          Style="{StaticResource GenericGridViewColumnHeader}"/>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{StaticResource ListViewItemDeleteButton}" 
-                                                Command="{Binding DataContext.CommandDeleteStructureFromTheListView, 
-                                                RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" 
-                                                CommandParameter="{Binding}">
-                                            <StackPanel>
-                                                <Image Width="30" Height="30" 
-                                                       Source="U:\Scripting\PD_ScriptTemplate\Projects\PD_ScriptTemplate\Components\cross_icon.ico"/>
-                                            </StackPanel>
-
-                                        </Button>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-
-
-
-        </Grid>
-        <Button x:Name="ButtonEXIT" Grid.Row="2" Grid.Column="0"  Style="{StaticResource GenericButton}" Command="{Binding ExitCommand}">
-            <TextBlock Text="EXIT"/>
-        </Button>
-        <Button x:Name="ButtonPropogateAllStructures" Grid.Row="2" Grid.Column="1"  Style="{StaticResource GenericButton}"
-                Command="{Binding CommandPopulateStructuresToTheListView}">
-            <TextBlock Text="Propogate Structures"/>
-        </Button>
-        <Button x:Name="CreateStructures" Grid.Row="2" Grid.Column="2" Style="{StaticResource GenericButton}"
-                 Command="{Binding CommandCreateOptimizationStructures}" 
-                IsEnabled="{Binding IsButtonEnabled}">
-            <TextBlock Text="Create Structures"/>
-        </Button>
-        
-        <Grid x:Name="LoadingSpinner" Grid.Row="1" Grid.ColumnSpan="3"
-              Background="Transparent"
-               Visibility="{Binding workIsInProgress, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <fa:ImageAwesome Grid.Row="1" Grid.Column="1"
-                             Icon="Gear" 
-                             Spin="True" FlowDirection="LeftToRight" SpinDuration="20"
-                             Width="300" Height="300" Foreground="#ccb1e0"
-                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock Grid.Row="2" Grid.Column="1" 
-                       Text="{Binding spinnerPhrase, Mode=OneWay}" 
-                       HorizontalAlignment="Center" VerticalAlignment="Top"
-                       Style="{StaticResource ListViewItemTextBlock}"
-                       FontWeight="SemiBold" FontSize="38" Foreground="#ccb1e0"/>
+            <fa:ImageAwesome Grid.Row="0" Grid.Column="1"
+                       Grid.RowSpan="12" Grid.ColumnSpan="6"
+  Icon="Gear" 
+  Spin="True" FlowDirection="LeftToRight" SpinDuration="20"
+  Width="400" Height="400" Foreground="#c1a0d9"
+  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="11" Grid.RowSpan="1"
+  Text="{Binding spinnerPhrase, Mode=OneWay}" 
+  HorizontalAlignment="Center" VerticalAlignment="Bottom"  
+  Style="{StaticResource GenericTextBlock}" Background="Transparent"
+  Margin="0 0 0 0" Padding="0 0 0 0"
+  FontWeight="SemiBold" FontSize="31" Foreground="#c1a0d9"/>
+            <TextBlock Text="{Binding spinnerPhrase1, Mode=OneWay}" 
+  Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="11"
+  HorizontalAlignment="Center" VerticalAlignment="Top"
+  TextAlignment="Center"
+  Style="{StaticResource GenericTextBlock}" Background="Transparent"
+  Margin="0 0 0 0" Padding="2"
+  FontWeight="SemiBold" FontSize="25" Foreground="#c1a0d9"/>
         </Grid>
+        <Grid x:Name="MainGrid"
+            Background="WhiteSmoke" 
+          Visibility="{Binding workIsInProgress, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2.0*"/>
+                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Border Grid.Row="0" Grid.ColumnSpan="8" Style="{StaticResource GenericBorder}" Background="{StaticResource BackgroundSecondaryBrush}"/>
+            <Border Grid.Row="1" Grid.ColumnSpan="8" Style="{StaticResource GenericBorder}"/>
+            <Border Grid.Row="2" Grid.ColumnSpan="8" Style="{StaticResource GenericBorder}" Background="{StaticResource BackgroundSecondaryBrush}"/>
+            <Border Grid.Row="3" Grid.ColumnSpan="8" Style="{StaticResource GenericBorder}"/>
+            <Border Grid.Row="4" Grid.ColumnSpan="8" Style="{StaticResource GenericBorder}" Background="{StaticResource BackgroundSecondaryBrush}"/>
+            <Border Grid.Row="5" Grid.ColumnSpan="8" Style="{StaticResource GenericBorder}"/>
+            <Border Grid.Row="6" Grid.ColumnSpan="8" Style="{StaticResource GenericBorder}" Background="{StaticResource BackgroundSecondaryBrush}"/>
+            <Border Grid.Row="7" Grid.ColumnSpan="8" Style="{StaticResource GenericBorder}"/>
+            <Border Grid.Row="8" Grid.ColumnSpan="8" Style="{StaticResource GenericBorder}" Background="{StaticResource BackgroundSecondaryBrush}"/>
+            <Border Grid.Row="9" Grid.ColumnSpan="8" Style="{StaticResource GenericBorder}"/>
+            <Border Grid.Row="10" Grid.ColumnSpan="8" Style="{StaticResource GenericBorder}" Background="{StaticResource BackgroundSecondaryBrush}"/>
+
+            <Grid x:Name="ScriptIDcolumn"
+                Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="6" Grid.RowSpan="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="ScriptID" 
+                    Grid.Column="1" Grid.Row="0" Grid.RowSpan="1"
+                    Text="Iso Split" TextAlignment="Right" 
+                           HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                           FontSize="40"
+                    Style="{StaticResource GenericTextBlock}" Padding="4 0 15 0" Margin="0,0,0,0"/>
+                <TextBlock x:Name="CommentScriptID" 
+                    Grid.Column="1" Grid.Row="1" Grid.RowSpan="1"
+                    Text="Multi isocenter planning: create FIN plans" TextAlignment="Right" 
+                           HorizontalAlignment="Right" VerticalAlignment="Top"
+                Style="{StaticResource GenericTextBlock}" Padding="4 0 15 0" Margin="0,0,0,0"/>
+            </Grid>
+            <Image x:Name="BCCancerLogoSpinnerGrid"
+                Grid.Row="0" Grid.Column="0"
+                Grid.RowSpan="1" Grid.ColumnSpan="1"
+                Source="/IsoSplit.esapi;component/Components/bcca-logo_Vancouver.png"
+                Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Top"  
+                Margin="5 5 0 5" 
+                Opacity="0.5"
+                />
+            <TextBlock x:Name="FINCourseTextBlock" 
+                       Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2"
+            Text="FIN Course:" TextAlignment="Left" HorizontalAlignment="Left" FontSize="30"
+            Style="{StaticResource GenericTextBlock}" Padding="4 0 15 0" Margin="0,0,0,0" Height="35"/>
+            <TextBox x:Name="FinCourseIDTextBox" 
+                    Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3"
+                    Style="{StaticResource GenericTextBox}" Margin="0 0 0 0" Padding="0 0 0 0" 
+                    Text="{Binding finCourseID,UpdateSourceTrigger=LostFocus}" FontSize="30" TextAlignment="Left"
+                    MaxLength="16" Background="Transparent" VerticalContentAlignment="Center" VerticalAlignment="Center">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding CommandApplyFinCorseCommand}"/>
+                    <KeyBinding Key="Enter">
+                        <KeyBinding.Command>
+                            <local:MoveFocusCommand />
+                        </KeyBinding.Command>
+                    </KeyBinding>
+                </TextBox.InputBindings>
+            </TextBox>
+            <!--<TextBlock x:Name="PriorityMatchTextBlock" 
+                       Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="1"
+    Text="Match to:" TextAlignment="Left" HorizontalAlignment="Left" FontSize="30"
+    Style="{StaticResource GenericTextBlock}" Padding="4 0 15 0" Margin="0,0,0,0" Height="35"/>
+            <ComboBox x:Name="PriorityMatchComboBox"
+                Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
+          Style="{StaticResource GenericComboBox}" Height="35"
+          SelectedItem="{Binding selectedPriorityMatchIso}" ItemsSource="{Binding collectionOfPriorityMatchIso}"/>
+            -->
+            <Grid x:Name="CBCTtoIsocentersItemsControl" 
+                  Grid.Column="0" Grid.ColumnSpan="8" Grid.Row="9">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Add CBCT to isocenters:" 
+                               Style="{StaticResource GenericTextBlock}" 
+                               HorizontalAlignment="Left" Padding="4 0 15 0" Margin="0,0,0,0"/>
+                </Grid>
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding collectionOfPriorityMatchIso}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.3*"/>
+                                    <ColumnDefinition Width="0.25*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding isocenterGroupText}"
+                                    Style="{StaticResource ListViewItemTextBlock}"
+                                    FontSize="20" FontFamily="Calibri"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Padding="4 0 5 0" Margin="0,0,0,0"/>
+                                <TextBox Grid.Column="1" Text="{Binding isocenterID, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                    Style="{StaticResource GenericTextBox}" MaxLength="10"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    FontSize="20" FontFamily="Calibri" Width="Auto"
+                                    Padding="4 0 0 0" Margin="0,0,0,0"
+                                    KeyDown="FieldIdTextBox_KeyDown"/>
+                                <CheckBox Grid.Column="2" IsChecked="{Binding isSelectedAddCBCT}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Padding="4 0 5 0" Margin="0,0,0,0"
+                                          Style="{StaticResource GenericCheckBox}"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            <TextBlock x:Name="DoNotTxTextBlock"
+                Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="3"
+                Text="Create 'DoNotTx' plan?" TextAlignment="Left" HorizontalAlignment="Right" FontSize="30"
+                Style="{StaticResource GenericTextBlock}" Padding="4 0 15 0" Margin="0,0,0,0" Height="35"/>
+            <CheckBox x:Name="DoNotTxCheckbox"
+                Grid.Column="7" Grid.Row="7" Grid.ColumnSpan="2"
+          Margin="15 4 0 0" Padding="0 0 0 0" 
+          HorizontalAlignment="Left" VerticalAlignment="Center"
+          IsChecked="{Binding createDoNotTxPlanCheckBoxResult}"/>
+            <TextBlock x:Name="HFplanTextBlock"
+                Grid.Column="0" Grid.Row="3" 
+                Text="HF Plan ID:" TextAlignment="Left" HorizontalAlignment="Left"
+                Visibility="{Binding singlePlanCheckBoxResult, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                Style="{StaticResource GenericTextBlock}" Padding="0 0 5 0" Margin="4,0,0,0" Height="35"/>
+            <TextBlock x:Name="CplanTextBlock"
+                Grid.Column="0" Grid.Row="3" 
+                Text="2C Plan ID:" TextAlignment="Left" HorizontalAlignment="Left"
+                Visibility="{Binding singlePlanCheckBoxResult, Converter={StaticResource BoolToVisibilityConverter}}"
+                Style="{StaticResource GenericTextBlock}" Padding="0 0 5 0" Margin="4,0,0,0" Height="35"/>
+            <ComboBox x:Name="RO2CplanComboBox"
+                Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3"
+                ItemsSource="{Binding availablePlanIDs, Mode=TwoWay}"
+                SelectedValue="{Binding selectedRO2CPlanID, Mode=TwoWay}"
+                Style="{StaticResource GenericComboBox}" Height="35" VerticalContentAlignment="Bottom"/>
+            <CheckBox x:Name="SinglePlanCheckBox"
+                Grid.Column="7" Grid.Row="3" Grid.ColumnSpan="2"
+                Margin="15 4 0 0" Padding="0 0 0 0" 
+                HorizontalAlignment="Left" VerticalAlignment="Center"
+                IsChecked="{Binding singlePlanCheckBoxResult}"/>
+            <TextBlock x:Name="SinglePlanTextBlock"
+                Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="3"
+                Text="Single plan?" TextAlignment="Left" HorizontalAlignment="Right" FontSize="30"
+                Style="{StaticResource GenericTextBlock}" Padding="4 0 15 0" Margin="0,0,0,0" Height="35"/>
+            <TextBlock x:Name="FFplanTextBlock"
+                Grid.Row="5" Grid.Column="0" 
+                Text="FF Plan ID:" TextAlignment="Left" HorizontalAlignment="Left"
+                Visibility="{Binding singlePlanCheckBoxResult, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                Style="{StaticResource GenericTextBlock}" Padding="0 0 0 0" Margin="4,0,0,0" FontSize="30" Height="35"/>
+            <ComboBox Name="FFstructurePlanComboBox" 
+                      Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="5"
+                ItemsSource="{Binding availablePlanIDs, Mode=TwoWay}"
+                SelectedValue="{Binding selectedFFPlanID, Mode=TwoWay}"
+                Visibility="{Binding singlePlanCheckBoxResult, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                Style="{StaticResource GenericComboBox}" FontSize="30" Height="35"/>
+            <TextBlock Name="PatientIDtextBlock" 
+                       Grid.Row="1" Grid.Column="0" 
+               Text="Case ID:" TextAlignment="Left" HorizontalAlignment="Left"
+               Style="{StaticResource GenericTextBlock}" Margin="4,0,0,0" Padding="0 0 5 0" Height="35"/>
+            <TextBlock Name="PatientIDvalueTextBlock" 
+                       Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+               Text="{Binding patientId}" TextAlignment="Left" HorizontalAlignment="Left"
+               Style="{StaticResource GenericTextBlock}" Padding="0 0 0 0" Height="35"/>
+            <Button x:Name="SplitIsocentersButton" 
+                    Grid.Row="11" Grid.RowSpan="3" Grid.ColumnSpan="8" Grid.Column="0"
+                Style="{StaticResource GenericButton}"
+                Command="{Binding CommandSplitIsoCommand}" 
+                IsEnabled="{Binding isButtonEnabled}"
+                Margin="0" Padding="0">
+                <TextBlock Text="Run Script" Padding="0 0 0 0"/>
+            </Button>
+        </Grid>
+
     </Grid>
-    
 </UserControl>

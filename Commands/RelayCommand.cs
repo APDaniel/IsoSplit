@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace PD_ScriptTemplate.Commands
+namespace IsoSplitProject.Commands
 {
     
     /// <summary>

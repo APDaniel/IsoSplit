@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace PD_ScriptTemplate.Converter
+namespace IsoSplitProject.Converter
 {
     public class RangeToBooleanConverter : IValueConverter
     {

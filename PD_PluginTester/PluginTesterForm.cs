@@ -1,12 +1,13 @@
-﻿using PD_ScriptTemplate;
-using PD_ScriptTemplate.Helpers;
-using PD_ScriptTemplate.ViewModels;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Threading;
+using IsoSplitProject;
+using IsoSplitProject.Helpers;
+using IsoSplitProject.ViewModels;
 using VMS.TPS.Common.Model.API;
+
 
 
 
@@ -30,16 +31,16 @@ namespace PluginTester
             app = VMS.TPS.ESAPIApplication.Instance; // instantiate the ESAPI context
 
             // Can use this to seed the form if you have a standard test patient.
-            textBox_PID.Text = "CN_Pro_PD_1";
-            textBox_SSID.Text = "CT_05Jul2023";
-            textBox_planId.Text = "P1_proN";
-            textBox_CourseID.Text = "Course1";
+            textBox_PID.Text = "VC_TBI_16";
+            textBox_SSID.Text = "CT1_HF";
+            textBox_planId.Text = "TBI_2C_copy";
+            textBox_CourseID.Text = "Course1_planning";
         }
 
 
         private void InitializeAndStartMainWindow(EsapiWorker esapiWorker)
         {
-            var mainViewModel = new Structure3DViewerViewModel(esapiWorker);
+            var mainViewModel = new IsoSplitViewModel(esapiWorker);
             try
             {
                 var mainWindow = new ScriptWindow() { DataContext = mainViewModel};
@@ -105,6 +106,7 @@ namespace PluginTester
                     DispatcherFrame frame = new DispatcherFrame();
                     RunOnNewStaThread(() =>
                     {
+                        
                         // This method won't return until the window is closed
                         InitializeAndStartMainWindow(ew);
 
@@ -120,11 +122,6 @@ namespace PluginTester
                 }
                 else
                     System.Windows.Forms.MessageBox.Show("The plan or structure set was not found.");
-
-
-
-
-
             }
             catch (Exception ex)
             {

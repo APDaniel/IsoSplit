@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.33328.57
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PD_ScriptTemplateProject", "PD_ScriptTemplateProject.csproj", "{5CB1648F-C40F-43D6-BB19-1D4AB5E28595}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsoSplit", "IsoSplit.csproj", "{5CB1648F-C40F-43D6-BB19-1D4AB5E28595}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PD_PluginTester", "PD_PluginTester\PD_PluginTester.csproj", "{93B605A3-784E-4497-B995-92759927E668}"
 EndProject
@@ -24,8 +24,8 @@ Global
 		{5CB1648F-C40F-43D6-BB19-1D4AB5E28595}.Release|x64.Build.0 = Release|x64
 		{93B605A3-784E-4497-B995-92759927E668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93B605A3-784E-4497-B995-92759927E668}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93B605A3-784E-4497-B995-92759927E668}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{93B605A3-784E-4497-B995-92759927E668}.Debug|x64.Build.0 = Debug|Any CPU
+		{93B605A3-784E-4497-B995-92759927E668}.Debug|x64.ActiveCfg = Debug|x64
+		{93B605A3-784E-4497-B995-92759927E668}.Debug|x64.Build.0 = Debug|x64
 		{93B605A3-784E-4497-B995-92759927E668}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93B605A3-784E-4497-B995-92759927E668}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93B605A3-784E-4497-B995-92759927E668}.Release|x64.ActiveCfg = Release|Any CPU
