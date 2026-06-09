@@ -31,9 +31,9 @@ namespace PluginTester
             app = VMS.TPS.ESAPIApplication.Instance; // instantiate the ESAPI context
 
             // Can use this to seed the form if you have a standard test patient.
-            textBox_PID.Text = "VC_TBI_16";
-            textBox_SSID.Text = "CT1_HF";
-            textBox_planId.Text = "TBI_2C_copy";
+            textBox_PID.Text = "VC_TBI_9";
+            textBox_SSID.Text = "CT1_TotalBody";
+            textBox_planId.Text = "Plan3_2C";
             textBox_CourseID.Text = "Course1_planning";
         }
 

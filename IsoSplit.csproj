@@ -331,6 +331,9 @@
   <ItemGroup>
     <Resource Include="Components\bcca-logo_Vancouver.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BeamToPlanID_Rules.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

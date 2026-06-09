@@ -29,7 +29,7 @@ namespace IsoSplitProject.ViewModels
         #region Private fields
         private List<BeamToPlanID_Model> _regionrules { get; set; }
         private string _regionRulesXmlPath { get; set; }
-        private int _isocenterGroupNumber = 1;
+
         /// <summary>
         /// private string used in script logic for
         /// defining course where all the FIN plans are saved. 
@@ -691,7 +691,9 @@ namespace IsoSplitProject.ViewModels
                     idx++;
 
                     //Define copy plan ID
-                    string prefix = _collectionOfPriorityMatchIso.FirstOrDefault(x=>x.groupNumber == _isocenterGroupNumber)?.isocenterID;
+                    string beamID = planCopy.Beams.FirstOrDefault(x=>!x.IsSetupField)?.Id;
+                    string prefix = SelectPlanOrRpIDBasedOnInputString(beamID);
+
                     string baseID = prefix + "FIN";
                     planCopy.Id = MakeSafeId(baseID, courseToSaveCopiedPlan);
                     Logger.LogInfo($"Plan copy ID defined as: {planCopy.Id}");
@@ -705,7 +707,6 @@ namespace IsoSplitProject.ViewModels
                     AddSetupFields(planCopy, 90.0); //Add kV G90
                     AddSetupFields(planCopy, 180.0); //Add kV G180  
 
-                    _isocenterGroupNumber++;
                 }
             }
 
@@ -771,9 +772,18 @@ namespace IsoSplitProject.ViewModels
                     Logger.LogInfo("Looping through region codes");
                     string baseID = (string)region + "_NP";
                     rpID = baseID;
-                    if (patient.ReferencePoints.Any(rp => !rp.Id.Equals(rpID, StringComparison.OrdinalIgnoreCase)))
+                    var testToDelete = new List<string>();
+                    foreach (ReferencePoint x in patient.ReferencePoints)
                     {
-                        Logger.LogInfo($"Reference point with ID: {rpID} not found in case#{patient.Id}. Updating IEnumerable with reference points.");
+                        testToDelete.Add(x.Id);
+                    }
+                    if (patient.ReferencePoints.Any(rp => string.Equals(rp.Id, rpID, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        Logger.LogInfo($"RP {rpID} exists. Ignore."); _spinnerPhrase1 = "";
+                    }
+                    else 
+                    { 
+                        Logger.LogInfo($"Reference point with ID: {rpID} not found in case# {patient.Id}. Updating IEnumerable with reference points.");
                         var refPt = patient.AddReferencePoint(true, rpID);
 
                         _spinnerPhrase = $"Adding reference point {rpID}...";
@@ -789,6 +799,7 @@ namespace IsoSplitProject.ViewModels
                             Logger.LogInfo($"Dose limits for {refPt.Id} are set as: " +
                                 $"Session={refPt.SessionDoseLimit}; Daily={refPt.DailyDoseLimit}; Total={refPt.TotalDoseLimit}");
                         }
+
                         else
                         {
                             //Define SGRT Point dose limits
@@ -804,7 +815,6 @@ namespace IsoSplitProject.ViewModels
                         _spinnerPhrase1 = $"... for ref point {refPt.Id}";
                         Thread.Sleep(2000);
                     }
-                    else { Logger.LogInfo($"RP {rpID} exists. Ignore."); _spinnerPhrase1 = ""; }
                 }
             }
             catch { Logger.LogError($"Something went wrong when creating a reference point {rpID}. Try to open RO2C plan in context. Bypassed."); }

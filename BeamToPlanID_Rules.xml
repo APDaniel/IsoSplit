@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+    RegionRules are used to map beam/field ID text patterns
+    to standardized plan ID labels.
+
+    Rule order matters:
+    more specific patterns should appear before general patterns.
+    Example: chestr and chestl must come before chest.
+
+    Please keep Pattern values in lowercase letters.
+    This helps prevent duplicate or inconsistent pattern matching.
+
+    Please keep Label values free of special characters such as *, /, or -.
+    Underscores (_) are allowed.
+-->
+
+<RegionRules>
+	<RegionRule Pattern="head"   Label="Head" />
+	<RegionRule Pattern="chestr" Label="ChestR" />
+	<RegionRule Pattern="chestl" Label="ChestL" />
+	<RegionRule Pattern="chest"  Label="Chest" />
+	<RegionRule Pattern="abdo"   Label="Abdo" />
+	<RegionRule Pattern="pelvis" Label="Pelvis" />
+	<RegionRule Pattern="knees"  Label="Knees" />
+	<RegionRule Pattern="feet"   Label="Feet" />
+	<RegionRule Pattern="legsup" Label="LegsUp" />
+	<RegionRule Pattern="legslw" Label="LegsLow" />
+	<RegionRule Pattern="legs"   Label="Legs" />
+</RegionRules>

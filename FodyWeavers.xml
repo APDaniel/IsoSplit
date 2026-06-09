@@ -1,7 +1,7 @@
 ﻿<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
   <PropertyChanged />
 	
-	<Costura CreateTemporaryAssemblies="true">
+	<Costura CreateTemporaryAssemblies="false">
 		<IncludeAssemblies>
 			CommunityToolkit.Common
 			CommunityToolkit.Diagnostics
@@ -15,6 +15,16 @@
 			YamlDotNet
 			FontAwesome.WPF
 			System.Diagnostics.DiagnosticSource
+			Microsoft.Bcl.AsyncInterfaces
+			Microsoft.Extensions.DependencyInjection.Abstractions
+			Microsoft.Extensions.Logging.Abstractions
+			System.Buffers
+			System.ComponentModel.Annotations
+			System.Memory
+			System.Numerics.Vectors
+			System.Runtime.CompilerServices.Unsafe
+			System.Threading.Channels
+			System.Threading.Tasks.Extensions
 		</IncludeAssemblies>
 	</Costura>
 </Weavers>
